@@ -6,6 +6,7 @@ const postSchema = new Schema({
     autor: {
         type: Schema.Types.ObjectId,
         ref: 'usuario',
+        // requiered: true,
     },
 });
 

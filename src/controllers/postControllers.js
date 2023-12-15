@@ -1,5 +1,5 @@
 const PostModel = require("./../models/postModel");
-const { verificarToken } = require("./../utils/token.js");
+const {verificarToken} = require('./../utils/token.js')
 
 const postController = {};
 
@@ -25,7 +25,7 @@ postController.verPost = async (req, res) => {
 
     return res.json(post);
   } catch (error) {
-    let mensaje = "Ocurrio un error interno";
+    let mensaje = "Ocurrio un error interno ";
 
     if (error.kind === "ObjectId") {
       return res.status(404).json({
@@ -43,8 +43,8 @@ postController.verPost = async (req, res) => {
 postController.crearPost = async (req, res) => {
   try {
     const { titulo, descripcion } = req.body;
-    const { token } = req.headers;
-
+    const {token} = req.headers; // tomo el autor a partir del token
+    
     const tokenValido = verificarToken(token);
 
     if (!tokenValido) {
@@ -53,8 +53,8 @@ postController.crearPost = async (req, res) => {
         error: error,
       });
     }
-
-    const autor = tokenValido.id;
+    
+    const autor = tokenValido.id; // si el token es valido traigo el autor
 
     const nuevoPost = new PostModel({
       titulo: titulo,
@@ -66,7 +66,7 @@ postController.crearPost = async (req, res) => {
     return res.json({ mensaje: "Se creo el Post." });
   } catch (error) {
     return res.status(500).json({
-      mensaje: "Ocurrio un error interno",
+      mensaje: "Ocurrio un error interno al querer crear el post",
       error: error,
     });
   }
@@ -119,7 +119,7 @@ postController.eliminarPost = async (req, res) => {
     return res.json({ mensaje: "El post ha sido eliminado." });
   } catch (error) {
     return res.status(500).json({
-      mensaje: "Ocurrio un error interno",
+      mensaje: "Ocurrio un error interno al querer eliminar el post",
       error: error,
     });
   }
