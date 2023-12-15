@@ -21,19 +21,19 @@ autenticacionController.autenticar = async (req, res) => {
     });
     
     if (!usuarioEncontrado) {
-            return res.status(404).json({ mensaje: 'El usuario no fué encontrado.' });
+            return res.status(404).json({ mensaje: 'El usuario no fue encontrado.' });
         }
-        const datos = {
+        const datos = { 
           id: usuarioEncontrado._id,
           usuario: usuarioEncontrado.usuario,
-          nombres: usuarioEncontrado.nombres,
-          apellidos: usuarioEncontrado.apellidos,
+          nombre: usuarioEncontrado.nombre,
+          apellido: usuarioEncontrado.apellido,
       }
 
-      let token = jwt.sign(datos, JWT_KEY);  
+      let token = jwt.sign(datos, JWT_KEY);   
       res.json({ token: token, datos: datos });
   } catch (error) {
-    return res.status(500).json({ mensaje: 'Se produjo un error.' });
+    return res.status(500).json({ mensaje: 'Se produjo un error de autenticacion.' });
   }
 };
 

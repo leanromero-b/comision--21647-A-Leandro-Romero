@@ -41,10 +41,12 @@ UsuarioController.verUsuario = async (req, res) => {
 // Crear usuuario
 UsuarioController.crearUsuario = async (req, res) => {
   try {
-    const { nombre, password } = req.body;
+    const { usuario, nombre, apellido, password } = req.body;
 
     const nuevoUsuario = new usuarioModel({
+      usuario: usuario,
       nombre: nombre,
+      apellido: apellido,
       password: password,
     });
     await nuevoUsuario.save(); //guardar el nuevo documento en mongo.
@@ -62,6 +64,14 @@ UsuarioController.crearUsuario = async (req, res) => {
 UsuarioController.editarUsuario = async (req, res) => {
   try {
     const { id, nombre, password } = req.body;
+
+    if ( !id || !nombre || !password ) {
+      return res.status(500).json({
+        mensaje: "Debe completar todos los campos",
+        error: error,
+      })
+    }
+
 
     await usuarioModel.findByIdAndUpdate(id, {
       nombre: nombre,
