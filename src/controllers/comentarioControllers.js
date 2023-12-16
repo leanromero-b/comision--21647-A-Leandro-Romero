@@ -5,12 +5,12 @@ const { verificarToken } = require('./../utils/token.js');
 const comentariosController =  {}
 
 comentariosController.listarComentariosDePost = async (req, res) => {
-    try {
-        const { idPosteo } = req.params;
+    try { 
+        const { idPost } = req.params;
 
         const comentarios = await comentarioModel.find({
-            post: idPosteo
-        }).populate('autor');        
+            post: idPost
+        }).populate('autor', "-password");        
         return res.json(comentarios);
 
 
@@ -24,7 +24,7 @@ comentariosController.listarComentariosDePost = async (req, res) => {
 
 comentariosController.crearComentario = async (req, res) => {
     try {
-        const { descripcion, idPosteo } = req.body;
+        const { descripcion, idPost } = req.body;
         const { token } = req.headers;
 
         const tokenValido = verificarToken(token);
@@ -40,7 +40,7 @@ comentariosController.crearComentario = async (req, res) => {
         const nuevoComentario = new comentarioModel({
             descripcion: descripcion,
             autor: autor,
-            post: idPosteo,
+            post: idPost,
         });
 
         await nuevoComentario.save();
@@ -48,7 +48,7 @@ comentariosController.crearComentario = async (req, res) => {
         return res.json({ mensaje: 'Se publico el comentario' });
     } catch (error) {
         return res.status(500).json({
-            mensaje: 'Ocurrió un error interno',
+            mensaje: 'Ocurrió un error interno al enviar el comentario',
             error: error
         });
     }

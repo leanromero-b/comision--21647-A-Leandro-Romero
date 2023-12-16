@@ -6,7 +6,7 @@ const postController = {};
 // Ver Posteos
 postController.verPosteos = async (req, res) => {
   try {
-    const listaPosteos = await PostModel.find().populate("autor");
+    const listaPosteos = await PostModel.find().populate("autor", "-password");
 
     return res.json(listaPosteos);
   } catch (error) {
@@ -53,7 +53,7 @@ postController.crearPost = async (req, res) => {
         error: error,
       });
     }
-    
+
     const autor = tokenValido.id; // si el token es valido traigo el autor
 
     const nuevoPost = new PostModel({
@@ -87,12 +87,12 @@ postController.editarPost = async (req, res) => {
         });
     }
 
-    const userId = tokenValido.id;
-        const post = await PostModel.findById(id);
+    const tokenUsuario = tokenValido.id;
+    const post = await PostModel.findById(id);
 
-        if (post.autor.toString() !== userId) {
+        if (post.autor.toString() !== tokenUsuario) {
             return res.status(500).json({
-                mensaje: 'No autorizado'
+                mensaje: 'No esta autorizado a editar este post '
             });
         }
 
