@@ -8,19 +8,19 @@ const {
     eliminarPost,
 } = require('./../controllers/postControllers.js');
 
-// Ver Usuuarios
-postRouter.get('/post',verPosteos);
+// Ver posteos
+postRouter.get('/posteos',verPosteos);
 
-// Ver Usuuario
+// Ver post
 postRouter.get('/post/:id',verPost);
 
-// Crear Usuuario
+// Crear post
 postRouter.post('/post',crearPost);
 
-// Editar Usuuario
+// Editar post
 postRouter.put('/post',editarPost);
 
-// Eliminar Usuuario
+// Eliminar post
 postRouter.delete('/post', eliminarPost);
 
 
